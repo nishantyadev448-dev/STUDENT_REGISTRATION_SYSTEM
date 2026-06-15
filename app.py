@@ -45,6 +45,7 @@ def verify():
 
 @app.route("/save",methods=["POST"])
 def save():
+
     student=Student(
         name=request.form["name"],
         father=request.form["father"],
@@ -58,27 +59,26 @@ def save():
     db.session.add(student)
     db.session.commit()
 
-    # EMAIL CODE START
-    msg = Message(
-        "New Student Registration",
-        sender=app.config['MAIL_USERNAME'],
-        recipients=[app.config['MAIL_USERNAME']]
-    )
+    # --- EMAIL CODE KO HUMNE BAND KAR DIYA HAI ---
+    # msg = Message(
+    #     "New Student Registration",
+    #     sender=app.config['MAIL_USERNAME'],
+    #     recipients=[app.config['MAIL_USERNAME']]
+    # )
 
-    msg.body = f"""
-New Student Registered
+    # msg.body = f"""
+# New Student Registered
+# Name: {student.name}
+# Father: {student.father}
+# Class: {student.student_class}
+# Roll: {student.roll}
+# Mobile: {student.mobile}
+# Email: {student.email}
+# DOB: {student.dob}
+# """
 
-Name: {student.name}
-Father: {student.father}
-Class: {student.student_class}
-Roll: {student.roll}
-Mobile: {student.mobile}
-Email: {student.email}
-DOB: {student.dob}
-"""
-
-    mail.send(msg)
-    # EMAIL CODE END
+    # mail.send(msg)
+    # --------------------------------------------
 
     return "Registration Successful"
 

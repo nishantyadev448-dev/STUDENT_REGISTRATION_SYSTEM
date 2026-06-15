@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+
+<h1>Check Your Details</h1>
+
+
+<form action="/save" method="POST">
+
+
+<p>Name: {{data.name}}</p>
+<input type="hidden" name="name" value="{{data.name}}">
+
+
+<p>Father: {{data.father}}</p>
+<input type="hidden" name="father" value="{{data.father}}">
+
+
+<p>Class: {{data.class}}</p>
+<input type="hidden" name="class" value="{{data.class}}">
+
+
+<p>Roll: {{data.roll}}</p>
+<input type="hidden" name="roll" value="{{data.roll}}">
+
+
+<p>Mobile: {{data.mobile}}</p>
+<input type="hidden" name="mobile" value="{{data.mobile}}">
+
+
+<p>Email: {{data.email}}</p>
+<input type="hidden" name="email" value="{{data.email}}">
+
+
+<p>DOB: {{data.dob}}</p>
+<input type="hidden" name="dob" value="{{data.dob}}">
+
+
+
+<button>
+Confirm Submit
+</button>
+
+
+</form>
+
+
+</body>
+
+</html>

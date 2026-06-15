@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Student Registration</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>Student Registration</h1>
+
+
+<form action="/verify" method="POST">
+
+
+<label>Name</label>
+<input 
+type="text" 
+name="name"
+placeholder="Enter name"
+required>
+
+
+<label>Father Name</label>
+<input 
+type="text" 
+name="father"
+placeholder="Enter father name"
+required>
+
+
+<label>Class</label>
+<input 
+type="text" 
+name="class"
+placeholder="Enter class"
+required>
+
+
+<label>Roll Number</label>
+<input 
+type="text" 
+name="roll"
+placeholder="Enter roll number"
+required>
+
+
+<label>Mobile</label>
+<input 
+type="text" 
+name="mobile"
+placeholder="Enter mobile"
+required>
+
+
+<label>Email</label>
+<input 
+type="email" 
+name="email"
+placeholder="Enter email">
+
+
+<label>Date of Birth</label>
+<input 
+type="date"
+name="dob">
+
+
+<br><br>
+
+
+<button type="submit">
+Next
+</button>
+
+
+</form>
+
+
+</div>
+
+
+</body>
+
+</html>

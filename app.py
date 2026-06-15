@@ -6,13 +6,12 @@ import openpyxl
 
 app = Flask(__name__)
 
-# Purani 3 lines ko hata kar ye 3 lines likho:
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465            # <-- Port 587 se badalkar 465 kiya
-app.config['MAIL_USE_SSL'] = True         # <-- TLS ko hata kar SSL True kiya
-# app.config['MAIL_USE_TLS'] = False     # (Iski ab zaroorat nahi hai)
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False  # SSL ko false rakhenge aur TLS true
 
-# 2. In dono lines ko change kiya taaki Render ke Variables se connect ho sake
+# Render ke environment variables se hi data uthayenge
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'nishantyadev448@gmail.com')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'dgyiyjreskudevmx')
 
@@ -45,7 +44,6 @@ def verify():
 
 @app.route("/save",methods=["POST"])
 def save():
-
     student=Student(
         name=request.form["name"],
         father=request.form["father"],
@@ -59,26 +57,29 @@ def save():
     db.session.add(student)
     db.session.commit()
 
-    # --- EMAIL CODE KO HUMNE BAND KAR DIYA HAI ---
-    # msg = Message(
-    #     "New Student Registration",
-    #     sender=app.config['MAIL_USERNAME'],
-    #     recipients=[app.config['MAIL_USERNAME']]
-    # )
+    # EMAIL CODE DUBARA CHALU KIYA
+    try:
+        msg = Message(
+            "New Student Registration",
+            sender=app.config['MAIL_USERNAME'],
+            recipients=[app.config['MAIL_USERNAME']] # Aapko isi mail par notification aayega
+        )
 
-    # msg.body = f"""
-# New Student Registered
-# Name: {student.name}
-# Father: {student.father}
-# Class: {student.student_class}
-# Roll: {student.roll}
-# Mobile: {student.mobile}
-# Email: {student.email}
-# DOB: {student.dob}
-# """
+        msg.body = f"""
+New Student Registered
 
-    # mail.send(msg)
-    # --------------------------------------------
+Name: {student.name}
+Father: {student.father}
+Class: {student.student_class}
+Roll: {student.roll}
+Mobile: {student.mobile}
+Email: {student.email}
+DOB: {student.dob}
+"""
+        mail.send(msg)
+    except Exception as e:
+        # Agar email fail bhi ho jaye, toh website crash nahi hogi, registration ho jayega
+        print("Email sending failed:", str(e))
 
     return "Registration Successful"
 

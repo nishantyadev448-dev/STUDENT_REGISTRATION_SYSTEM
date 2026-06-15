@@ -1,6 +1,5 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
+import requests  # Telegram API call karne ke liye
 from flask import Flask, render_template, request, redirect, send_file, session
 from flask_sqlalchemy import SQLAlchemy
 import openpyxl
@@ -47,40 +46,35 @@ def save():
     db.session.add(student)
     db.session.commit()
 
-    # ---- NEW 100% SECURE EMAIL CODE ----
+    # ---- TELEGRAM NOTIFICATION CODE ----
     try:
-        # Render ke environment variables se data uthana
-        sender_email = os.environ.get('MAIL_USERNAME', 'nishantyadev448@gmail.com')
-        app_password = os.environ.get('MAIL_PASSWORD', 'dgyiyjreskudevmx')
+        # 🔴 APNI DETAILS YAHAN DAALO 🔴
+        BOT_TOKEN = "8933508840:AAHdie2PPQ-tdHCZMtC7pXHaIOJuzD8PZBM"
+        CHAT_ID = "6590528412"
 
         msg_body = f"""
-New Student Registered
+🔔 *New Student Registered!*
 
-Name: {student.name}
-Father: {student.father}
-Class: {student.student_class}
-Roll: {student.roll}
-Mobile: {student.mobile}
-Email: {student.email}
-DOB: {student.dob}
+👤 *Name:* {student.name}
+👨‍👦 *Father:* {student.father}
+📚 *Class:* {student.student_class}
+🔢 *Roll No:* {student.roll}
+📞 *Mobile:* {student.mobile}
+📧 *Email:* {student.email}
+📅 *DOB:* {student.dob}
 """
-        
-        msg = MIMEText(msg_body)
-        msg['Subject'] = 'New Student Registration'
-        msg['From'] = sender_email
-        msg['To'] = sender_email
-
-        # Gmail SMTP server se manual connection
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(sender_email, app_password)
-        server.sendmail(sender_email, [sender_email], msg.as_string())
-        server.quit()
-        print("Email Sent Successfully!")
+        # Telegram API ko message bhejna
+        url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        payload = {
+            "chat_id": CHAT_ID,
+            "text": msg_body,
+            "parse_mode": "Markdown"
+        }
+        requests.post(url, json=payload, timeout=10)
+        print("Telegram Notification Sent!")
         
     except Exception as e:
-        # Agar Google email block bhi karega, toh ye error log me print hoga par website crash NAHI HOGI!
-        print("🔴 Email Error but keeping site live:", str(e))
+        print("Telegram Error but site kept live:", str(e))
 
     return "Registration Successful"
 

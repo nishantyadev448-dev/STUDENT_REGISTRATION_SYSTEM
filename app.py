@@ -6,9 +6,11 @@ import openpyxl
 
 app = Flask(__name__)
 
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT']=587
-app.config['MAIL_USE_TLS']=True
+# Purani 3 lines ko hata kar ye 3 lines likho:
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465            # <-- Port 587 se badalkar 465 kiya
+app.config['MAIL_USE_SSL'] = True         # <-- TLS ko hata kar SSL True kiya
+# app.config['MAIL_USE_TLS'] = False     # (Iski ab zaroorat nahi hai)
 
 # 2. In dono lines ko change kiya taaki Render ke Variables se connect ho sake
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'nishantyadev448@gmail.com')
